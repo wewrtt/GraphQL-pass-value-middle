@@ -1,4 +1,0 @@
-export const ENTITY_CONST = {
-  MODEL_NAME_GROUP: 'atribute',
-  MODEL_PROVIDER: 'ATRIBUTE_MODEL',
-};
