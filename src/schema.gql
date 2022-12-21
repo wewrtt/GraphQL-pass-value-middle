@@ -1,0 +1,50 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type CategoryEntity {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
+  createdBy: String!
+  updateBy: String!
+  name: String!
+  img: String!
+  product: [ProductEntity!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type ProductEntity {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
+  createdBy: String!
+  updateBy: String!
+  name: String!
+  description: String!
+  priceImport: Float!
+  priceSelling: Float!
+  quantity: Float!
+  minQuantity: Float!
+  category: CategoryEntity!
+}
+
+type Query {
+  getList: [CategoryEntity!]!
+  getDetail(id: Int!): CategoryEntity!
+}
+
+type Mutation {
+  createCategory(createCategoryDto: CreateCategoryDto!): CategoryEntity!
+}
+
+input CreateCategoryDto {
+  name: String!
+  img: String!
+}

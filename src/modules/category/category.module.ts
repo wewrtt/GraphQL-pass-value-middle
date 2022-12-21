@@ -8,11 +8,18 @@ import { CategoryRepository } from './category.repository';
 import { CategoryService } from './category.service';
 import { AuthModule } from 'src/shared/auth/auth.module';
 import { FileUploadService } from 'src/shared/upload-file/file.upload.service';
+import { CategoryResolver } from './category.resolver';
 
 @Module({
   imports: [DatabaseModule, AuthModule],
   controllers: [CategoryController],
-  providers: [CategoryService, FileUploadService, CategoryRepository, ...CategoryProvider],
+  providers: [
+    CategoryService,
+    FileUploadService,
+    CategoryRepository,
+    ...CategoryProvider,
+    CategoryResolver,
+  ],
   exports: [CategoryService],
 })
-export class CategoryModule { }
+export class CategoryModule {}

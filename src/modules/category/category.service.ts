@@ -1,8 +1,7 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
 import { DataSource } from 'typeorm';
-import { ProductEntity } from '../product/product.entity';
 import { CategoryEntity } from './category.entity';
-
 import { CategoryRepository } from './category.repository';
 import { CreateCategoryDto } from './dto/category.create.dto';
 
@@ -14,7 +13,11 @@ export class CategoryService {
   ) {}
 
   async getListV1() {
-    return 'api/v1';
+    return this.entityRepository.findByCondition({
+      relations: {
+        product: true,
+      },
+    });
   }
 
   async getListV2() {
@@ -29,7 +32,7 @@ export class CategoryService {
     }
   }
 
-  async getDetail(id: number) {
+  async getDetail(id: number): Promise<CategoryEntity[]> {
     const where = { where: { id: id } };
     const category = await this.entityRepository.findByCondition(where);
     if (category.length < 1) {
@@ -41,6 +44,15 @@ export class CategoryService {
         },
         HttpStatus.NOT_FOUND,
       );
+    }
+    return category;
+  }
+
+  async getOne(id: number): Promise<CategoryEntity> {
+    const where = { where: { id: id } };
+    const category = await this.entityRepository.findOneByCondition(where);
+    if (!category) {
+      throw new BadRequestException('badrequest');
     }
     return category;
   }
