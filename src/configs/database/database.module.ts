@@ -6,4 +6,4 @@ import { mysqlProviders } from './typeorm.provider';
   providers: [...mysqlProviders],
   exports: [...mysqlProviders],
 })
-export class DatabaseModule { }
+export class DatabaseModule {}
