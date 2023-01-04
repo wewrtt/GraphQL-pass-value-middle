@@ -9,7 +9,6 @@ import {
   Put,
   UploadedFile,
   UseInterceptors,
-  Response,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import {
@@ -41,14 +40,12 @@ export class CategoryController {
   @ApiBadRequestResponse()
   @HttpCode(200)
   public async getlist(@VERSION() version) {
-    console.log(version)
-    // const version = await res.locals.version;
-    // console.log(version);
-    if (version === '1.0') {
-      return this.categoryService.getListV1();
-    } else if (version === '2.0') {
-      return this.categoryService.getListV2();
-    } else return 0;
+    return this.categoryService.getListV1();
+    // if (version === '1.0') {
+    //   return this.categoryService.getListV1();
+    // } else if (version === '2.0') {
+    //   return this.categoryService.getListV2();
+    // } else return 0;
   }
 
   @Post('')
@@ -64,15 +61,10 @@ export class CategoryController {
   @HttpCode(201)
   public async create(@Body() body: CreateCategoryDto, @UploadedFile() img) {
     const { originalname } = img;
-    const upload = await this.fileUploadService.uploadS3(
-      img,
-      awsBucket.avatarsCategory,
-      Date.now() + '_' + originalname,
-    );
     const { name } = body;
     const data: Partial<CreateCategoryDto> = {
       name,
-      img: upload.toString(),
+      img: originalname,
     };
     return this.categoryService.create(data);
   }

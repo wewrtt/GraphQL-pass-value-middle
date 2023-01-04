@@ -14,7 +14,7 @@ export class CategoryService {
   ) {}
 
   async getListV1() {
-    return 'api/v1';
+    return this.entityRepository.findByCondition({});
   }
 
   async getListV2() {
