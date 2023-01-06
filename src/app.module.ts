@@ -1,21 +1,19 @@
 import {
-  CacheInterceptor,
-  CacheModule,
   MiddlewareConsumer,
   Module,
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
 import { DatabaseModule } from './configs/database/database.module';
-import { ProductModule } from './modules/product/product.module';
-import { CategoryModule } from './modules/category/category.module';
 import { VersionMiddleware } from './configs/version.middleware';
 import { CategoryController } from './modules/category/category.controller';
 import {} from 'cache-manager-redis-store';
 import { LoggerMiddleware } from './shared/middleware/logger.middleware';
+import { ProductModule } from './modules/product/product.module';
+import { CategoryModule } from './modules/category/category.module';
 
 @Module({
-  imports: [ProductModule, CategoryModule, DatabaseModule],
+  imports: [DatabaseModule, ProductModule, CategoryModule],
   controllers: [],
   providers: [],
 })

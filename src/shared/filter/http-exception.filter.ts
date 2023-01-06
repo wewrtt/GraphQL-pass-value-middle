@@ -5,7 +5,6 @@ import {
   ExceptionFilter,
   HttpStatus,
 } from '@nestjs/common';
-import { Endpoint } from 'aws-sdk';
 import { Response } from 'express';
 import { ERROR_MESSAGE } from 'src/shared/constants/common.constants';
 import { ERROR_CODE } from 'src/shared/constants/common.constants';

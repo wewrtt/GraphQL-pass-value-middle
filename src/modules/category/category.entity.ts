@@ -1,9 +1,10 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { ENTITY_CONST } from './category.constant';
-import { BaseEntity } from 'src/shared/database/base-entity';
+import { BaseEntity } from '../../shared/database/base-entity';
 
 import { ApiProperty } from '@nestjs/swagger';
 import { ProductEntity } from '../product/product.entity';
+//import { ProductEntity } from '../product/product.entity';
 
 @Entity({ name: ENTITY_CONST.MODEL_NAME })
 export class CategoryEntity extends BaseEntity {

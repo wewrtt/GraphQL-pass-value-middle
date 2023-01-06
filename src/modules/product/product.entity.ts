@@ -1,10 +1,8 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { ENTITY_CONST } from './product.constant';
-import { BaseEntity } from 'src/shared/database/base-entity';
+import { BaseEntity } from '../../shared/database/base-entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { CategoryEntity } from '../category/category.entity';
-import { AtributeGroupEntity } from '../atribute-group/atribute-group.entity';
-import { ProductImageEntity } from '../product-image/product.img.entity';
 
 @Entity({ name: ENTITY_CONST.MODEL_NAME })
 export class ProductEntity extends BaseEntity {
@@ -35,17 +33,6 @@ export class ProductEntity extends BaseEntity {
   minQuantity: number;
 
   @ManyToOne(() => CategoryEntity, (categoryEntity) => categoryEntity.id)
+  // @JoinColumn({name: 'author'})
   category: CategoryEntity;
-
-  @OneToMany(
-    () => AtributeGroupEntity,
-    (atributeGroupEntity) => atributeGroupEntity.product,
-  )
-  atributeGroup: AtributeGroupEntity[];
-
-  @OneToMany(
-    () => ProductImageEntity,
-    (productImageEntity) => productImageEntity.product,
-  )
-  productimage: ProductImageEntity[];
 }
