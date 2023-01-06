@@ -1,4 +1,0 @@
-export const ENTITY_CONST = {
-  MODEL_NAME_IMAGE: 'productimage',
-  MODEL_PROVIDER_IMAGE: 'PRODUCT_IMAGE_MODEL',
-};
