@@ -1,17 +1,17 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import newrelic from 'newrelic';
+
 import { NestFactory } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
-import { appConfig } from './configs/configs.constants';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import appConfig from './configs/server.config';
+
+const configService = new ConfigService();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const config = new DocumentBuilder()
-    .setTitle('Api Documents')
-    .setDescription('The docs API description')
-    .setVersion('1.0')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
-  await app.listen(appConfig.port);
+  appConfig(app);
+  await app.listen(configService.get<number>('PORT') || 3000);
 }
+
 bootstrap();

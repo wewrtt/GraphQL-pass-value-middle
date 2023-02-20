@@ -1,36 +1,43 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { DatabaseModule } from './configs/database/database.module';
-import { ProductModule } from './modules/product/product.module';
-import { AtributeGroupModule } from './modules/atribute-group/atribute-group.module';
-import { AtributeModule } from './modules/atribute/atribute.module';
-import { VersionMiddleware } from './configs/version.middleware';
-import { CategoryController } from './modules/category/category.controller';
-import { OptionModule } from './modules/option/option.module';
-import { ProductImageModule } from './modules/product-image/product.img.module';
-import { CategoryModule } from './modules/category/category.module';
-import { GraphQLModule } from '@nestjs/graphql';
-import { join } from 'path';
-import { ApolloDriver } from '@nestjs/apollo';
-import { ApolloDriverConfig } from '@nestjs/apollo/dist/interfaces';
+import { CacheModule, MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { EntityModule } from './api/entity/entity.module';
+import { UserModule } from './api/user/user.module';
+import { AuthModule } from './api/auth/auth.module';
+import { LoggerMiddleware } from './share/middlewares/logger.middleware';
+import { PermissionsModule } from './api/permissions/permissions.module';
+import { RolesModule } from './api/roles/roles.module';
+import { PostModule } from './api/post/post.module';
+import { CategoryModule } from './api/category/category.module';
+import { UserConfigModule } from './api/user-config/user-config.module';
+import { ConfigAppModule } from './api/config/config.module';
+import { TeamModule } from './api/team/team.module';
+import { AttachmentModule } from './api/attachment/attachment.module';
+import { NotificationModule } from './api/notification/notification.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+    ConfigModule.forRoot(),
+    CacheModule.register({
+      isGlobal: true,
     }),
-    ProductModule,
-    ProductImageModule,
+    EntityModule,
+    UserModule,
+    AuthModule,
+    PermissionsModule,
+    RolesModule,
+    PostModule,
     CategoryModule,
-    AtributeGroupModule,
-    AtributeModule,
-    DatabaseModule,
-    OptionModule,
+    UserConfigModule,
+    ConfigAppModule,
+    TeamModule,
+    AttachmentModule,
+    NotificationModule,
+    ScheduleModule.forRoot(),
   ],
-  controllers: [],
 })
-export class AppModule implements NestModule {
+export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(VersionMiddleware).forRoutes(CategoryController);
+    consumer.apply(LoggerMiddleware).forRoutes({ path: '*', method: RequestMethod.ALL });
   }
 }

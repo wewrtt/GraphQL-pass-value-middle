@@ -1,37 +1,40 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /><a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-  
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## blo blueonion - Financial
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This template use REST API concept. The flow of simple [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) (Create, Read, Update and Delete) applications can be described using the following steps:
+
+### Intantiate a module
+
+See <a href='https://docs.nestjs.com/recipes/crud-generator'>NestJS CRUD generator.</a>
+
+- Default:
+
+```bash
+$ nest g resource modules/<module-name>
+```
+
+Select `REST API`. NestJS CLI will generate a boilerplate for the module.
+
+- If the structure is more complex:
+``` bash
+$ nest g resource <module-name>
+```
+Copy the generated module to `src/modules/<your desired folder>`.
+
+### Logging
+- See <a href='https://docs.nestjs.com/techniques/logger'>NestJS Logger</a>.
+- By default:
+1. `development` will log `['log', 'debug', 'error', 'verbose', 'warn']` levels.
+2. `production` will log `['error', 'warn']` levels.
+- Logging levels can be customized in `main.ts` for each environment. 
 
 ## Installation
 
+### Install npm packages
 ```bash
 $ npm install
 ```
-
 ## Running the app
 
 ```bash
@@ -45,29 +48,38 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Test
+## Deploy to Production
 
 ```bash
-# unit tests
-$ npm run test
+# 01. Install nvm https://github.com/nvm-sh/nvm
+# 02. Install node v16
+$ nvm install v16
+$ nvm use v16
+# 03. Copy enviroment
+$ cp .env.example .env
+# 04. Edit config MYSQL in the .env file
+# 05. Edit config Redis in the .env file
+# 06. Run package
+$ npm install
+# 07. Build code
+$ npm run build
+# 08. Running code
+$ node dist/src/main
 
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
-## Support
+## Documentation
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Swagger
 
-## Stay in touch
+```bash
+# API, Swagger - src/swagger.ts
+npm run doc:api #> http://localhost:3000/api
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- This project ultilize <a href='https://docs.nestjs.com/openapi/cli-plugin'> NestJS's CLI Plugin </a>.
+- Please aware that there is no need to put `@ApiProperty` decorator for every DTOs properties. For more information, please visit the link above.
 
 ## License
 
-  Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+  Nest is [MIT licensed](LICENSE).
