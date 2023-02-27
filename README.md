@@ -1,30 +1,6 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /><a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-  
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## HiPT transport project - Backend API
 
 ## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
 ## Installation
 
@@ -58,16 +34,122 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+## Technical Stack
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- Language: **NodeJS (16.x), Typescript (4.x)**
+- Framework: **NestJS v9**
+- DBMS: **MySQL**
+- ORM: **TypeORM**
+- Logger: **Winston**
 
-## Stay in touch
+## Deploy production
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+# 01. Install nvm https://github.com/nvm-sh/nvm
+# 02. Install node 16
+$ nvm install 16
+$ nvm use 16
+# 03. Copy enviroment
+$ cp .env.example .env
+# 04. Edit configs in the .env file
+# 06. Install packages
+$ npm install
+# 07. Build code
+$ npm run build
+# 08. Running migrations
+$ npm run typeorm:run-migrations
+# 09. Running code
+$ npm run start:prod
+# or
+$ node dist/src/main
+```
+
+## Development documentations
+
+### **Swagger OpenAPI**
+
+```bash
+# Set NODE_ENV in .env file other than production
+npm run start # => http://{host}:{port}/apidocs
+```
+
+### **Postman**
+
+[Postman Documentation]()
+
+Environments:
+
+- [Local env]()
+- [Dev env]()
+- [Prod env]()
+
+## Project's structure
+
+```ts
++-- migrations                      // Database migration files
++-- src                             // Source files
+|   +-- common                        // Common components
+|   |   +-- constants                   // General constants
+|   |   |   +-- app                       // NestJS application constants
+|   |   |   +-- errors                    // Error constants information
+|   |   +-- decorators                  // General decorator
+|   |   +-- exception-filters           // General exeption filter
+|   |   +-- interceptors                // General interceptor
+|   |   +-- interfaces                  // General interface
+|   |   +-- loggers                     // General logger
+|   |   +-- middlewares                 // General middleware
+|   |   +-- pipes                       // General pipe
+|   |   +-- utils                       // Helper useful features
+|   |   +-- validators                  // General validator
+|   |   |   +-- image-file.validator.ts   // File upload validator
+|   +-- configs                       // Application configs
+|   |   +-- constant.config.ts          // Config environment constants
+|   |   +-- server.config.ts            // NestJS config. Include Middleware, Pipe, Interceptor, Filter, CORS, ...
+|   |   +-- typeorm.config.ts           // Config TypeORM Datasource
+|   +-- database                      // Database components
+|   |   +-- base                        // TypeORM base components
+|   |   |   +-- entity.base.ts            // TypeORM base entity
+|   |   |   +-- repository.base.ts        // TypeORM base repository
+|   |   +-- interfaces                  // Database interface
+|   |   |   +-- pagination.interface.ts   // Pagination interface
+|   |   +-- seeders                     // Database seeders. Include seed files
+|   |   |   +-- initial.seeders.ts        // Initial seed file
+|   |   +-- database.module.ts          // Database module
+|   |   +-- database.providers.ts       // Database provider. Define 'DATA_SOURCE' provider
+|   +-- modules                       // Define modules in project
+|   |   +-- entity                      // Sample module
+|   |   |   +-- constants                 // Module's constants
+|   |   |   +-- dto                       // Module's data transfer objects
+|   |   |   +-- entities                  // Module's entities
+|   |   |   +-- factories                 // Module's factories. Support seeding sample data
+|   |   |   +-- test                      // Module's unit test files
+|   |   |   +-- entity.controller.ts      // Sample controller
+|   |   |   +-- entity.module.ts          // Define elements in module
+|   |   |   +-- entity.provider.ts        // Sample providers. Include model database provider
+|   |   |   +-- entity.repository.ts      // Model database repository
+|   |   |   +-- entity.service.ts         // Sample service
+|   |   +-- external-services           // 3-party services module
+|   +-- app.module.ts                 // Root module in project
+|   +-- main.ts                       // Entry point in project
++-- test                            // Integration and e2e test files
++-- .env.example                    // Example environment variables file
+```
+
+## Command list
+
+```bash
+# Create migration file with filename
+$ npm run typeorm:create-migration --name=${file_name}
+# Generate migration file with filename from entities (Linux or MacOS)
+$ npm run typeorm:generate-migration --name=${file_name}
+# Generate migration file with filename from entities (Windows)
+$ npm run typeorm:generate-migration:windows --name=${file_name}
+# Running migrations
+$ npm run typeorm:run-migrations
+# Seeding sample data for development environment
+$ npm run typeorm:seed
+```
 
 ## License
 
-  Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Nest is [MIT licensed](LICENSE).

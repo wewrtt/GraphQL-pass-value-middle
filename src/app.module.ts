@@ -1,36 +1,31 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { DatabaseModule } from './configs/database/database.module';
-import { ProductModule } from './modules/product/product.module';
-import { AtributeGroupModule } from './modules/atribute-group/atribute-group.module';
-import { AtributeModule } from './modules/atribute/atribute.module';
-import { VersionMiddleware } from './configs/version.middleware';
-import { CategoryController } from './modules/category/category.controller';
-import { OptionModule } from './modules/option/option.module';
-import { ProductImageModule } from './modules/product-image/product.img.module';
-import { CategoryModule } from './modules/category/category.module';
-import { GraphQLModule } from '@nestjs/graphql';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import { ApolloDriver } from '@nestjs/apollo';
-import { ApolloDriverConfig } from '@nestjs/apollo/dist/interfaces';
-
+import { PermissionModule } from './modules/permission/permission.module';
+import { RoleModule } from './modules/role/role.module';
+import { LoggerMiddleware } from './common/middlewares/logger.middleware';
+import { DatabaseModule } from './database/database.module';
+import { AttachmentModule } from './modules/attachment/attachment.module';
+import { UserModule } from './modules/user/user.module';
+import { DepartmentModule } from './modules/department/department.module';
+import { AuthModule } from './modules/auth/auth.module';
 @Module({
   imports: [
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '../..', 'static'),
+      serveRoot: '/public',
     }),
-    ProductModule,
-    ProductImageModule,
-    CategoryModule,
-    AtributeGroupModule,
-    AtributeModule,
+    AuthModule,
     DatabaseModule,
-    OptionModule,
+    AttachmentModule,
+    UserModule,
+    PermissionModule,
+    RoleModule,
+    DepartmentModule,
   ],
-  controllers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(VersionMiddleware).forRoutes(CategoryController);
+    consumer.apply(LoggerMiddleware).forRoutes('*');
   }
 }
